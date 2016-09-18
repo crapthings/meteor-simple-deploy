@@ -1,0 +1,21 @@
+{
+  "name": "meteor-simple-deploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.1",
+    "lodash": "^4.15.0",
+    "minimist": "^1.2.0",
+    "nodemiral": "^1.1.1",
+    "parse-json": "^2.2.0"
+  },
+  "bin": {
+    "msd": "bin/msd"
+  }
+}

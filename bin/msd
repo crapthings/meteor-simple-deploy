@@ -1,0 +1,68 @@
+#!/usr/bin/env node
+
+var fs = require('fs')
+
+var _ = require('lodash')
+
+var parseArgs = require('minimist')
+
+var parseJson = require('parse-json')
+
+var nodemiral = require('nodemiral')
+
+var __argv = parseArgs(process.argv.slice(2))
+var fa = __argv._[0]
+
+var __cwd = process.cwd()
+
+var __jsFile = __cwd + '/msd.js'
+var __jsonFile = __cwd + '/msd.json'
+
+console.log(__argv)
+
+var config = parseFile(__jsonFile)
+var session = nodemiral.session(config.host, {
+	username: config.username,
+	password: config.password
+})
+
+if (fa === 'check') {
+	session.execute('echo Server Info: "\n" && lsb_release -a && echo "\n"Mem Status: "\n" && free -m', function(err, code, logs) {
+		console.log(logs.stdout)
+	})
+}
+
+if (fa === 'users') {
+	session.execute('cut -d: -f1 /etc/passwd', function(err, code, logs) {
+		console.log(logs.stdout)
+	})
+}
+
+if (fa === 'adduser') {
+	var username = __argv.username
+	var password = __argv.password
+	var cmd = 'useradd -m -p ' + password + ' -g sudo ' + username
+	console.log(cmd)
+	if (username && password) {
+		session.execute(cmd, function(err, code, logs) {
+			console.log(err, code, logs, logs.stdout)
+		})
+	}
+}
+
+function parseFile(file) {
+	return parseJson(fs.readFileSync(file))
+}
+
+function isFileExist(file) {
+	try {
+		fs.accessSync(file, fs.R_OK)
+		return true
+	} catch (e) {
+		return prettyPrint(e)
+	}
+}
+
+function prettyPrint(ctx) {
+	return JSON.stringify(ctx, null, 2)
+}
