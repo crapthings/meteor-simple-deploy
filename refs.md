@@ -21,3 +21,5 @@ https://github.com/arunoda/nodemiral
 https://github.com/substack/minimist
 
 https://github.com/crapthings/mcjs-cli
+
+https://medium.com/@levid/deploy-meteor-with-docker-4d251e7916fe#.lmjna53ha
