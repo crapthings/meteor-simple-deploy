@@ -9,9 +9,12 @@ _.each(exports, attachRun)
 function attachRun (ctx) {
   ctx.exec = function () {
     console.log(this.prepareText + '\n')
+    var start = new Date().getTime()
     var session = nodemiral.session(config.host, { username: config.username, password: config.password }, { keepAlive: false })
     session.execute(this.cmd, function(err, code, logs) {
       console.log(logs.stdout)
+      var end = new Date().getTime()
+      console.log(end - start + 'ms')
     })
   }
 }
